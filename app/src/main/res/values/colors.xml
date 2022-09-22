@@ -7,4 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="Nude_300">#FFF2D2BD</color>
+    <color name="LightRed">#FFff4d4d</color>
+    <color name="NewBackGround">#FFF8EFBA</color>
+    <color name="EndBlue">#FF182C61</color>
+    <color name="RockPink">#FFffcccc</color>
+    <color name="LightBlue">#FF9abfe3</color>
+    <color name="LightMaroon">#FFFA5C65</color>
+    <color name="LightGreen">#FF37DC94</color>
+    <color name ="LightOrange">#FFEC8C32</color>
+    <color name="Maroon">#FFA6446C</color>
+
 </resources>
