@@ -1,26 +1,27 @@
 package com.example.myappbar.ui.theme
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.materialIcon
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myappbar.BottomMenuContent
+import com.example.myappbar.R
 
 @Composable
 fun HomeScreen() {
@@ -40,13 +41,112 @@ fun HomeScreen() {
             Diet()
             Books()
             Community()
-            Spirituality()
+          //  Spirituality()
+
 
 
 
          }
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+
+
+        ) {
+            BottomMenu(items= listOf(
+                BottomMenuContent("Home", R.drawable.homeicon),
+                BottomMenuContent("Date", R.drawable.newcalendar),
+                BottomMenuContent("Profile", R.drawable.female),
+                BottomMenuContent("Explore", R.drawable.explore),
+                BottomMenuContent("Save", R.drawable.bookmark)
+
+            ))
+        }
+
+
      }
  }
+
+
+@Composable
+fun BottomMenu(
+    items: List<BottomMenuContent>,
+    modifier: Modifier = Modifier,
+    activeHighlightColor:Color = EndBlue,
+    activeTextColor: Color = LightOrange,
+    inactiveTextColor : Color = Color.White,
+    initialSelectedItemIndex: Int = 0
+
+){
+    var selectedItemIndex by remember{
+        mutableStateOf(initialSelectedItemIndex)
+    }
+    Row(
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(EndBlue)
+            .padding(15.dp)
+    ) {
+        items.forEachIndexed { index, item->
+            BottomMenuItem(
+                item= item,
+                isSelected = index == selectedItemIndex,
+                activeHighlightColor = activeHighlightColor,
+                activeTextColor = activeTextColor,
+                inactiveTextColor = inactiveTextColor
+
+                )
+            {
+                selectedItemIndex = index
+            }
+
+        }
+    }
+
+}
+@Composable
+fun BottomMenuItem(
+    item: BottomMenuContent,
+    isSelected: Boolean = false,
+            activeHighlightColor:Color = NewBackGround,
+    activeTextColor: Color = LightBlue,
+    inactiveTextColor : Color = LightBlue,
+    onItemClick: () -> Unit
+){
+    Column (
+            horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.
+        clickable {
+            onItemClick()
+        }
+    ) {
+        Box(
+            contentAlignment =Alignment.Center,
+            modifier = Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .background(if (isSelected) activeHighlightColor else Color.Transparent)
+                .padding(10.dp)
+
+        ) {
+            Icon(
+                painter = painterResource(id = item.iconId),
+                contentDescription = item.title,
+            tint = if(isSelected) activeTextColor else inactiveTextColor,
+                modifier = Modifier.size(20.dp)
+
+                )
+        }
+        Text(
+            text= item.title,
+            color = if(isSelected) activeTextColor else inactiveTextColor
+        )
+    }
+
+}
+
 @Composable
 fun GreetingSection(
     name: String = "Noah"
@@ -74,8 +174,11 @@ fun GreetingSection(
             )
 
         }
+        Icon(imageVector = Icons.Default.Menu, contentDescription =null,modifier=Modifier.padding(horizontal = 25.dp) )
+
 
         Icon(imageVector = Icons.Default.Notifications, contentDescription = null,)
+
 
     }
 }
@@ -90,7 +193,7 @@ fun ChipSection(
         items(chips.size){
             Box(
                 modifier = Modifier
-                    .padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
+                    .padding(start = 20.dp, top = 15.dp, bottom = 15.dp, end = 0.dp)
 
                     .clickable {
                         selectedChipIndex = it
@@ -120,10 +223,11 @@ fun FamilyBar(
             .padding(15.dp)
             .clip(RoundedCornerShape(15.dp))
             .background(color)
-            .padding(horizontal = 15.dp, vertical = 20.dp)
+            .padding(horizontal = 15.dp, vertical = 17.dp)
             .fillMaxWidth()
     ){
-        Column()
+        Column(
+        )
         {
             Text(text = "Family,",
                 style = TextStyle(EndBlue,  fontSize = 20.sp, fontWeight = FontWeight.Bold)
@@ -153,7 +257,7 @@ fun WorkOut(
             .padding(15.dp)
             .clip(RoundedCornerShape(15.dp))
             .background(color)
-            .padding(horizontal = 15.dp, vertical = 20.dp)
+            .padding(horizontal = 15.dp, vertical = 17.dp)
             .fillMaxWidth()
     ){
         Column()
@@ -187,7 +291,7 @@ fun Diet(
             .padding(15.dp)
             .clip(RoundedCornerShape(15.dp))
             .background(color)
-            .padding(horizontal = 15.dp, vertical = 20.dp)
+            .padding(horizontal = 15.dp, vertical = 17.dp)
             .fillMaxWidth()
     ){
         Column()
@@ -221,7 +325,7 @@ fun Books(
             .padding(15.dp)
             .clip(RoundedCornerShape(15.dp))
             .background(color)
-            .padding(horizontal = 15.dp, vertical = 20.dp)
+            .padding(horizontal = 15.dp, vertical = 17.dp)
             .fillMaxWidth()
     ){
         Column()
@@ -254,10 +358,12 @@ fun Community(
             .padding(15.dp)
             .clip(RoundedCornerShape(15.dp))
             .background(color)
-            .padding(horizontal = 15.dp, vertical = 20.dp)
+            .padding(horizontal = 15.dp, vertical = 17.dp,)
             .fillMaxWidth()
     ){
-        Column()
+        Column(
+
+        )
         {
             Text(text = "Community,",
                 style = TextStyle(EndBlue,  fontSize = 20.sp, fontWeight = FontWeight.Bold)
@@ -276,39 +382,39 @@ fun Community(
 
 
 }
-@Composable
-fun Spirituality(
-    color: Color= LightBlue
-){
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .padding(15.dp)
-            .clip(RoundedCornerShape(15.dp))
-            .background(color)
-            .padding(horizontal = 15.dp, vertical = 20.dp)
-            .fillMaxWidth()
-    ){
-        Column()
-        {
-            Text(text = "Spirituality,",
-                style = TextStyle(EndBlue,  fontSize = 20.sp, fontWeight = FontWeight.Bold)
+//@Composable
+//fun Spirituality(
+    //color: Color= LightBlue
+//){
+    //Row(
+      //  verticalAlignment = Alignment.CenterVertically,
+     //   horizontalArrangement = Arrangement.SpaceBetween,
+      //  modifier = Modifier
+        //    .padding(15.dp)
+           // .clip(RoundedCornerShape(15.dp))
+           // .background(color)
+           // .padding(horizontal = 15.dp, vertical = 20.dp)
+            //.fillMaxWidth()
+    //){
+      //  Column()
+  //      {
+           // Text(text = "Spirituality,",
+           //     style = TextStyle(EndBlue,  fontSize = 20.sp, fontWeight = FontWeight.Bold)//
 
 
-            )
-            Text(text = "Meditate At 8:30 PM",
-                style = TextStyle(EndBlue, fontSize = 16.sp, fontWeight = FontWeight.Bold )
-            )
+       //     )
+       //     Text(text = "Meditate At 8:30 PM",
+       //         style = TextStyle(EndBlue, fontSize = 16.sp, fontWeight = FontWeight.Bold )
+      //      )
 
-        }
-
-
-    }
+   //     }
 
 
+  //  }
 
-}
+
+
+//}
 
 
 
